@@ -1,0 +1,43 @@
+# 5.1 List<String> vendeursTriesParNom(Map<String, List<JouetDeBain>> cat) — retourne les noms des vendeurs triés alphabétiquement.
+public static List<String> vendeursTriesParNom(Map<String, List<JouetDeBain>> cat) {
+    return cat.keySet().stream()
+              .sorted()
+              .collect(Collectors.toList());
+}
+# 5.2 long totalJouets(Map<String, List<JouetDeBain>> cat) — retourne le nombre total de jouets toutes listes confondues.
+public static long totalJouets(Map<String, List<JouetDeBain>> cat) {
+    return cat.values().stream()
+              .mapToInt(List::size)
+              .sum();
+}
+# 5.3 Optional<String> vendeurLePlusRiche(Map<String, List<JouetDeBain>> cat)
+public static Optional<String> vendeurLePlusRiche(Map<String, List<JouetDeBain>> cat) {
+    return cat.entrySet().stream()
+              .max(Comparator.comparingInt(e -> e.getValue().size()))
+              .map(Map.Entry::getKey);
+}
+/*List<JouetDeBain> tousLesCanards(Map<String, List<JouetDeBain>> cat) — retourne la liste de tous les CanardEnPlastique (et sous-classes) présents dans le catalogue, sans doublon (au sens de equals), triés par taille décroissante.
+Indice : flatMap permet d’aplatir une Stream<List<JouetDeBain>> en Stream<JouetDeBain>.*/
+public static List<JouetDeBain> tousLesCanards(Map<String, List<JouetDeBain>> cat) {
+    return cat.values().stream()
+              .flatMap(List::stream)
+              .filter(j -> j instanceof CanardEnPlastique)
+              .distinct()
+              .sorted(Comparator.comparingInt(JouetDeBain::getTaille).reversed())
+              .collect(Collectors.toList());
+}
+// Bonus : Map<String, String> resumeParVendeur(Map<String, List<JouetDeBain>> cat) — retourne une Map associant à chaque vendeur une chaîne résumant son catalogue, du type "3 jouets : Gérard, Bob, DJ".
+// Indice : pour chaque entrée, Collectors.joining(", ") sur les noms, précédé du compte.
+public static Map<String, String> resumeParVendeur(Map<String, List<JouetDeBain>> cat) {
+    return cat.entrySet().stream()
+              .collect(Collectors.toMap(
+                  Map.Entry::getKey,
+                  e -> {
+                      List<JouetDeBain> jouets = e.getValue();
+                      String noms = jouets.stream()
+                                          .map(JouetDeBain::getNom)
+                                          .collect(Collectors.joining(", "));
+                      return jouets.size() + " jouets : " + noms;
+                  }
+              ));
+}
