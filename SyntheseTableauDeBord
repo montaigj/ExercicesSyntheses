@@ -1,3 +1,5 @@
+#Séance 10 - Exercices : algorithmes et Streams
+
 # 5.1 List<String> vendeursTriesParNom(Map<String, List<JouetDeBain>> cat) — retourne les noms des vendeurs triés alphabétiquement.
 public static List<String> vendeursTriesParNom(Map<String, List<JouetDeBain>> cat) {
     return cat.keySet().stream()
