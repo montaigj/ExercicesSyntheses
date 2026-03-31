@@ -1,3 +1,4 @@
+Séance 9 - Maps
 // 5.1 – Catalogue par vendeur
 public static Map<String, List<JouetDeBain>> catalogueParVendeur(
         List<String> vendeurs, List<List<JouetDeBain>> listes) {
