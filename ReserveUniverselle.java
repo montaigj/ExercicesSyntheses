@@ -1,3 +1,4 @@
+// Séance 7 - Exercices : jokers et restrictions
 import java.util.ArrayList;
 import java.util.List;
 
